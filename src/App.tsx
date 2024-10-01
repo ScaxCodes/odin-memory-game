@@ -15,8 +15,10 @@ export type GameState = {
   currentScore: number;
   highscore: number;
   turn: number;
-  difficulty: "easy" | "medium" | "hard";
+  difficulty: DifficultyType;
 };
+
+export type DifficultyType = "easy" | "medium" | "hard";
 
 function App() {
   const [gameState, setGameState] = useState<GameState>({
@@ -31,6 +33,11 @@ function App() {
     id: "welcome",
   });
 
+  function handleSelectDifficulty(difficulty: DifficultyType) {
+    setModalStatus({ ...modalStatus, id: "loading" });
+    setGameState({ ...gameState, difficulty });
+  }
+
   return (
     <>
       <ToggleMusicButton />
@@ -40,8 +47,8 @@ function App() {
         <Modal>
           <ModalContent
             modalStatusId={modalStatus.id}
-            onSelectDifficulty={() =>
-              setModalStatus({ ...modalStatus, isOpen: false })
+            onSelectDifficulty={(difficulty) =>
+              handleSelectDifficulty(difficulty)
             }
           />
         </Modal>
