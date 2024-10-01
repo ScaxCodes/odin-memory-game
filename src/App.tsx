@@ -1,12 +1,17 @@
 import { useState } from "react";
-import { getTotalTurns } from "./utils/getTotalTurns";
+import { ToggleMusicButton } from "./comps/ToggleMusicButton";
+import { Header } from "./comps/Header";
+import { Gameboard } from "./comps/Gameboard";
+import { ModalContent } from "./comps/ModalContent";
 
 type ModalStatus = {
   isOpen: boolean;
-  id: "welcome" | "loading" | "won" | "lost";
+  id: ModalStatusId;
 };
 
-type GameState = {
+export type ModalStatusId = "welcome" | "loading" | "won" | "lost";
+
+export type GameState = {
   currentScore: number;
   highscore: number;
   turn: number;
@@ -31,69 +36,26 @@ function App() {
       <ToggleMusicButton />
       <Header gameState={gameState} />
       <Gameboard gameState={gameState} />
+      {modalStatus.isOpen && (
+        <Modal>
+          <ModalContent
+            modalStatusId={modalStatus.id}
+            onSelectDifficulty={() =>
+              setModalStatus({ ...modalStatus, isOpen: false })
+            }
+          />
+        </Modal>
+      )}
     </>
+  );
+}
+
+function Modal({ children }: { children: React.ReactNode }) {
+  return (
+    <div className="fixed inset-0 bg-gray-800 flex items-center justify-center opacity-50">
+      <div className="p-4 bg-white border border-black z-1">{children}</div>
+    </div>
   );
 }
 
 export default App;
-
-function ToggleMusicButton() {
-  const [isMusicEnabled, setIsMusicEnabled] = useState<boolean>(false);
-
-  return <button>Toggle Music</button>;
-}
-
-function Header({ gameState }: { gameState: GameState }) {
-  return (
-    <>
-      <Title />
-      <CurrentScoreDisplay currentScore={gameState.currentScore} />
-      <HighscoreDisplay highscore={gameState.highscore} />
-      <TurnDisplay
-        turn={gameState.turn}
-        turns={getTotalTurns(gameState.difficulty)}
-      />
-    </>
-  );
-}
-
-function Title() {
-  return (
-    <div>
-      <span className="text-red-600">Poké</span>
-      <span>Memo</span>
-      <span className="text-red-600">N</span>
-    </div>
-  );
-}
-
-function CurrentScoreDisplay({ currentScore }: { currentScore: number }) {
-  return <div>Score: {currentScore}</div>;
-}
-
-function HighscoreDisplay({ highscore }: { highscore: number }) {
-  return <div>Highscore: {highscore}</div>;
-}
-
-function TurnDisplay({ turn, turns }: { turn: number; turns: 5 | 15 | 25 }) {
-  return (
-    <div>
-      Turn: {turn}/{turns}
-    </div>
-  );
-}
-
-function Gameboard({ gameState }: { gameState: GameState }) {
-  return (
-    <>
-      <PokemonCard />
-      <PokemonCard />
-    </>
-  );
-}
-
-function PokemonCard() {
-  return (
-    <div className="h-64 w-40 bg-red-300 mr-1 inline-block rounded-lg"></div>
-  );
-}
