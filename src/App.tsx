@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { getTotalTurns } from "./utils/getTotalTurns";
 
 type ModalStatus = {
   isOpen: boolean;
@@ -16,11 +17,11 @@ function App() {
   const [gameState, setGameState] = useState<GameState>({
     currentScore: 0,
     highscore: 0,
-    turn: 0,
+    turn: 1,
     difficulty: "easy",
   });
 
-  const [modalStatus, setModalstatus] = useState<ModalStatus>({
+  const [modalStatus, setModalStatus] = useState<ModalStatus>({
     isOpen: true,
     id: "welcome",
   });
@@ -46,9 +47,12 @@ function Header({ gameState }: { gameState: GameState }) {
   return (
     <>
       <Title />
-      <CurrentScoreDisplay />
-      <HighscoreDisplay />
-      <TurnDisplay />
+      <CurrentScoreDisplay currentScore={gameState.currentScore} />
+      <HighscoreDisplay highscore={gameState.highscore} />
+      <TurnDisplay
+        turn={gameState.turn}
+        turns={getTotalTurns(gameState.difficulty)}
+      />
     </>
   );
 }
@@ -63,16 +67,20 @@ function Title() {
   );
 }
 
-function CurrentScoreDisplay({ currentScore = 0 }) {
+function CurrentScoreDisplay({ currentScore }: { currentScore: number }) {
   return <div>Score: {currentScore}</div>;
 }
 
-function HighscoreDisplay() {
-  return <div>Highscore: </div>;
+function HighscoreDisplay({ highscore }: { highscore: number }) {
+  return <div>Highscore: {highscore}</div>;
 }
 
-function TurnDisplay() {
-  return <div>Turn: </div>;
+function TurnDisplay({ turn, turns }: { turn: number; turns: 5 | 15 | 25 }) {
+  return (
+    <div>
+      Turn: {turn}/{turns}
+    </div>
+  );
 }
 
 function Gameboard({ gameState }: { gameState: GameState }) {
