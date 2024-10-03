@@ -1,28 +1,31 @@
 import { useEffect, useState } from "react";
-import { DifficultyType, ModalStatusId } from "../App";
+import { DifficultyType, ModalStatus, Pokemon } from "../App";
+import { getTotalTurns } from "../utils/getTotalTurns";
 
 type ModalContentProps = {
-  modalStatusId: ModalStatusId;
+  modalStatus: ModalStatus;
+  setModalStatus: React.Dispatch<React.SetStateAction<ModalStatus>>;
+  difficulty: DifficultyType;
   onSelectDifficulty: (difficulty: DifficultyType) => void;
-};
-
-type Pokemon = {
-  id: number;
-  name: string;
-  imageUrl: string;
-  selected: boolean;
+  setPokemon: React.Dispatch<React.SetStateAction<Pokemon[]>>;
 };
 
 export function ModalContent({
-  modalStatusId,
+  modalStatus,
+  setModalStatus,
+  difficulty,
   onSelectDifficulty,
+  setPokemon,
 }: ModalContentProps) {
   const [isLoading, setIsLoading] = useState(false);
 
   async function fetchPokemon() {
     const pokemon: Pokemon[] = [];
+    const totalTurns = getTotalTurns(difficulty);
 
-    while (pokemon.length < 5) {
+    while (pokemon.length < totalTurns) {
+      // Generation I (Kanto): 151 Pokémon (Pokémon #001-#151)
+      // Introduced in Pokémon Red/Blue/Green/Yellow (1996)
       const randomId = Math.floor(Math.random() * 151) + 1;
       const response = await fetch(
         `https://pokeapi.co/api/v2/pokemon/${randomId}`
@@ -38,18 +41,22 @@ export function ModalContent({
       });
     }
 
-    console.log(pokemon);
+    console.log(pokemon); // Debugging only
+    setPokemon(pokemon);
     setIsLoading(false);
+    setTimeout(() => {
+      setModalStatus({ ...modalStatus, isOpen: false });
+    }, 1000);
   }
 
   useEffect(() => {
-    if (modalStatusId === "loading") {
+    if (modalStatus.id === "loading") {
       setIsLoading(true);
       fetchPokemon();
     }
-  }, [modalStatusId]);
+  }, [modalStatus.id]);
 
-  switch (modalStatusId) {
+  switch (modalStatus.id) {
     case "welcome":
       return (
         <>
@@ -63,10 +70,6 @@ export function ModalContent({
         </>
       );
     case "loading":
-      // Load 151 Pokémon
-      // Generation I (Kanto): 151 Pokémon (Pokémon #001-#151)
-      // Introduced in Pokémon Red/Blue/Green/Yellow (1996)
-      // fetch(`https://pokeapi.co/api/v2/pokemon/${id}`
       return (
         <>
           {isLoading && (

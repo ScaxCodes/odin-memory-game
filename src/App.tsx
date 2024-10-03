@@ -4,7 +4,7 @@ import { Header } from "./comps/Header";
 import { Gameboard } from "./comps/Gameboard";
 import { ModalContent } from "./comps/ModalContent";
 
-type ModalStatus = {
+export type ModalStatus = {
   isOpen: boolean;
   id: ModalStatusId;
 };
@@ -16,6 +16,13 @@ export type GameState = {
   highscore: number;
   turn: number;
   difficulty: DifficultyType;
+};
+
+export type Pokemon = {
+  id: number;
+  name: string;
+  imageUrl: string;
+  selected: boolean;
 };
 
 export type DifficultyType = "easy" | "medium" | "hard";
@@ -33,6 +40,8 @@ function App() {
     id: "welcome",
   });
 
+  const [pokemon, setPokemon] = useState<Pokemon[]>([]);
+
   function handleSelectDifficulty(difficulty: DifficultyType) {
     setModalStatus({ ...modalStatus, id: "loading" });
     setGameState({ ...gameState, difficulty });
@@ -46,10 +55,13 @@ function App() {
       {modalStatus.isOpen && (
         <Modal>
           <ModalContent
-            modalStatusId={modalStatus.id}
+            modalStatus={modalStatus}
+            setModalStatus={setModalStatus}
+            difficulty={gameState.difficulty}
             onSelectDifficulty={(difficulty) =>
               handleSelectDifficulty(difficulty)
             }
+            setPokemon={setPokemon}
           />
         </Modal>
       )}
