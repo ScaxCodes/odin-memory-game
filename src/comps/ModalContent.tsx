@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { DifficultyType, ModalStatusId } from "../App";
 
 type ModalContentProps = {
@@ -5,10 +6,49 @@ type ModalContentProps = {
   onSelectDifficulty: (difficulty: DifficultyType) => void;
 };
 
+type Pokemon = {
+  id: number;
+  name: string;
+  imageUrl: string;
+  selected: boolean;
+};
+
 export function ModalContent({
   modalStatusId,
   onSelectDifficulty,
 }: ModalContentProps) {
+  const [isLoading, setIsLoading] = useState(false);
+
+  async function fetchPokemon() {
+    const pokemon: Pokemon[] = [];
+
+    while (pokemon.length < 5) {
+      const randomId = Math.floor(Math.random() * 151) + 1;
+      const response = await fetch(
+        `https://pokeapi.co/api/v2/pokemon/${randomId}`
+      );
+      const data = await response.json();
+      console.log(data);
+
+      pokemon.push({
+        id: randomId,
+        name: data.name,
+        imageUrl: data.sprites.front_default,
+        selected: false,
+      });
+    }
+
+    console.log(pokemon);
+    setIsLoading(false);
+  }
+
+  useEffect(() => {
+    if (modalStatusId === "loading") {
+      setIsLoading(true);
+      fetchPokemon();
+    }
+  }, [modalStatusId]);
+
   switch (modalStatusId) {
     case "welcome":
       return (
@@ -23,10 +63,19 @@ export function ModalContent({
         </>
       );
     case "loading":
+      // Load 151 Pokémon
+      // Generation I (Kanto): 151 Pokémon (Pokémon #001-#151)
+      // Introduced in Pokémon Red/Blue/Green/Yellow (1996)
+      // fetch(`https://pokeapi.co/api/v2/pokemon/${id}`
       return (
         <>
-          <p>Please wait...</p>
-          <p>Pokémon are loading...</p>
+          {isLoading && (
+            <>
+              <p>Please wait...</p>
+              <p>Pokémon are loading...</p>
+            </>
+          )}
+          {!isLoading && <>Pokémon loaded!</>}
         </>
       );
     case "lost":
