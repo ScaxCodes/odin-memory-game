@@ -36,7 +36,7 @@ export function ModalContent({
       pokemon.push({
         id: randomId,
         name: data.name,
-        imageUrl: data.sprites.front_default,
+        image: data.sprites.front_default,
         selected: false,
       });
     }

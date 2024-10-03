@@ -21,7 +21,7 @@ export type GameState = {
 export type Pokemon = {
   id: number;
   name: string;
-  imageUrl: string;
+  image: string;
   selected: boolean;
 };
 
@@ -51,7 +51,13 @@ function App() {
     <>
       <ToggleMusicButton />
       <Header gameState={gameState} />
-      <Gameboard gameState={gameState} />
+      {!modalStatus.isOpen && (
+        <Gameboard
+          gameState={gameState}
+          setGameState={setGameState}
+          pokemon={pokemon}
+        />
+      )}
       {modalStatus.isOpen && (
         <Modal>
           <ModalContent
