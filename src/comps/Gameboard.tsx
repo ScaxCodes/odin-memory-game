@@ -4,18 +4,25 @@ type GameboardType = {
   gameState: GameState;
   setGameState: React.Dispatch<React.SetStateAction<GameState>>;
   pokemon: Pokemon[];
+  onClick: () => void;
 };
 
-export function Gameboard({ gameState, setGameState, pokemon }: GameboardType) {
+export function Gameboard({
+  gameState,
+  setGameState,
+  pokemon,
+  onClick,
+}: GameboardType) {
   return (
     <>
       {pokemon &&
-        pokemon.map((pokemon) => {
+        pokemon.slice(0, 5).map((pokemon) => {
           return (
             <PokemonCard
               key={pokemon.id}
               name={pokemon.name}
               image={pokemon.image}
+              onClick={onClick}
             />
           );
         })}
@@ -26,15 +33,19 @@ export function Gameboard({ gameState, setGameState, pokemon }: GameboardType) {
 type PokemonCardType = {
   name: string;
   image: string;
+  onClick: () => void;
 };
 
-function PokemonCard({ name, image }: PokemonCardType) {
+function PokemonCard({ name, image, onClick }: PokemonCardType) {
   return (
-    <div className="h-64 w-40 bg-red-300 m-1 inline-block rounded-lg">
+    <button
+      className="h-64 w-40 bg-red-300 m-1 inline-block rounded-lg"
+      onClick={onClick}
+    >
       <div className="flex flex-col items-center justify-center h-full">
         <img src={image} />
         <p>{name.toUpperCase()}</p>
       </div>
-    </div>
+    </button>
   );
 }

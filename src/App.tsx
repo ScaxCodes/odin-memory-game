@@ -3,6 +3,7 @@ import { ToggleMusicButton } from "./comps/ToggleMusicButton";
 import { Header } from "./comps/Header";
 import { Gameboard } from "./comps/Gameboard";
 import { ModalContent } from "./comps/ModalContent";
+import { shufflePokemon } from "./utils/shufflePokemon";
 
 export type ModalStatus = {
   isOpen: boolean;
@@ -47,6 +48,16 @@ function App() {
     setGameState({ ...gameState, difficulty });
   }
 
+  function handleCardClick() {
+    setPokemon(shufflePokemon(pokemon));
+    setGameState((currentGameState) => ({
+      ...gameState,
+      currentScore: currentGameState.currentScore + 1,
+      turn: currentGameState.turn + 1,
+      highscore: currentGameState.highscore + 1,
+    }));
+  }
+
   return (
     <>
       <ToggleMusicButton />
@@ -56,6 +67,7 @@ function App() {
           gameState={gameState}
           setGameState={setGameState}
           pokemon={pokemon}
+          onClick={handleCardClick}
         />
       )}
       {modalStatus.isOpen && (

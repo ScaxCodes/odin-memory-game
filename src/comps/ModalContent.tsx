@@ -28,7 +28,6 @@ export function ModalContent({
       // Introduced in Pokémon Red/Blue/Green/Yellow (1996)
       const randomId = Math.floor(Math.random() * 151) + 1;
 
-      // Check for duplication using the .some() method
       const duplicationFound = pokemon.some((p) => p.id === randomId);
       if (duplicationFound) {
         console.log(`Duplication Found - Skipping Pokémon! ID: ${randomId}`);
