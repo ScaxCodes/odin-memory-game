@@ -38,7 +38,6 @@ export function ModalContent({
         `https://pokeapi.co/api/v2/pokemon/${randomId}`
       );
       const data = await response.json();
-      console.log(data);
 
       pokemon.push({
         id: randomId,
@@ -48,7 +47,6 @@ export function ModalContent({
       });
     }
 
-    console.log(pokemon); // Debugging only
     setPokemon(pokemon);
     setIsLoading(false);
     setTimeout(() => {

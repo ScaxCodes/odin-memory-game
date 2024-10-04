@@ -4,7 +4,7 @@ type GameboardType = {
   gameState: GameState;
   setGameState: React.Dispatch<React.SetStateAction<GameState>>;
   pokemon: Pokemon[];
-  onClick: () => void;
+  onClick: (id: number) => void;
 };
 
 export function Gameboard({
@@ -16,13 +16,13 @@ export function Gameboard({
   return (
     <>
       {pokemon &&
-        pokemon.slice(0, 5).map((pokemon) => {
+        pokemon.slice(0, 5).map((pokemon, index) => {
           return (
             <PokemonCard
               key={pokemon.id}
               name={pokemon.name}
               image={pokemon.image}
-              onClick={onClick}
+              onClick={() => onClick(index)}
             />
           );
         })}
@@ -31,6 +31,7 @@ export function Gameboard({
 }
 
 type PokemonCardType = {
+  key: number;
   name: string;
   image: string;
   onClick: () => void;

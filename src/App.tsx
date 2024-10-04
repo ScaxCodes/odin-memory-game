@@ -4,6 +4,7 @@ import { Header } from "./comps/Header";
 import { Gameboard } from "./comps/Gameboard";
 import { ModalContent } from "./comps/ModalContent";
 import { shufflePokemon } from "./utils/shufflePokemon";
+import { getTotalTurns } from "./utils/getTotalTurns";
 
 export type ModalStatus = {
   isOpen: boolean;
@@ -43,15 +44,33 @@ function App() {
 
   const [pokemon, setPokemon] = useState<Pokemon[]>([]);
 
+  console.log(pokemon);
+
   function handleSelectDifficulty(difficulty: DifficultyType) {
     setModalStatus({ ...modalStatus, id: "loading" });
     setGameState({ ...gameState, difficulty });
   }
 
-  function handleCardClick() {
-    setPokemon(shufflePokemon(pokemon));
+  function handleCardClick(index: number) {
+    // Check loosing condition
+    if (pokemon[index].selected === true)
+      return setModalStatus({ isOpen: true, id: "lost" });
+
+    // Check winning condition
+    if (gameState.turn === getTotalTurns(gameState.difficulty))
+      setModalStatus({ isOpen: true, id: "won" });
+
+    // Mark clicked pokémon as selected
+    const pokemonCopy = pokemon.map((p, i) =>
+      i === index ? { ...p, selected: true } : p
+    );
+
+    // Shuffle card deck
+    setPokemon(shufflePokemon(pokemonCopy));
+
+    // Proceed to next turn
     setGameState((currentGameState) => ({
-      ...gameState,
+      ...currentGameState,
       currentScore: currentGameState.currentScore + 1,
       turn: currentGameState.turn + 1,
       highscore: currentGameState.highscore + 1,

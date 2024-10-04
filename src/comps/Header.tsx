@@ -36,7 +36,7 @@ function HighscoreDisplay({ highscore }: { highscore: number }) {
 function TurnDisplay({ turn, turns }: { turn: number; turns: 5 | 15 | 25 }) {
   return (
     <div>
-      Turn: {turn}/{turns}
+      Turn: {turn > turns ? turns : turn}/{turns}
     </div>
   );
 }
