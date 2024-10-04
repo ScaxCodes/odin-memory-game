@@ -78,31 +78,33 @@ function App() {
   }
 
   return (
-    <>
-      <ToggleMusicButton />
-      <Header gameState={gameState} />
-      {!modalStatus.isOpen && (
-        <Gameboard
-          gameState={gameState}
-          setGameState={setGameState}
-          pokemon={pokemon}
-          onClick={handleCardClick}
-        />
-      )}
-      {modalStatus.isOpen && (
-        <Modal>
-          <ModalContent
-            modalStatus={modalStatus}
-            setModalStatus={setModalStatus}
-            difficulty={gameState.difficulty}
-            onSelectDifficulty={(difficulty) =>
-              handleSelectDifficulty(difficulty)
-            }
-            setPokemon={setPokemon}
+    <div className="bg-[url('./assets/background.jpg')] h-screen bg-cover bg-center bg-fixed overflow-y-auto">
+      <div>
+        <ToggleMusicButton />
+        <Header gameState={gameState} />
+        {!modalStatus.isOpen && (
+          <Gameboard
+            gameState={gameState}
+            setGameState={setGameState}
+            pokemon={pokemon}
+            onClick={handleCardClick}
           />
-        </Modal>
-      )}
-    </>
+        )}
+        {modalStatus.isOpen && (
+          <Modal>
+            <ModalContent
+              modalStatus={modalStatus}
+              setModalStatus={setModalStatus}
+              difficulty={gameState.difficulty}
+              onSelectDifficulty={(difficulty) =>
+                handleSelectDifficulty(difficulty)
+              }
+              setPokemon={setPokemon}
+            />
+          </Modal>
+        )}
+      </div>
+    </div>
   );
 }
 
