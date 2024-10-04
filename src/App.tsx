@@ -66,7 +66,7 @@ function App() {
     );
 
     // Shuffle card deck
-    setPokemon(shufflePokemon(pokemonCopy));
+    setPokemon(shufflePokemon(pokemonCopy, gameState.turn));
 
     // Proceed to next turn
     setGameState((currentGameState) => ({

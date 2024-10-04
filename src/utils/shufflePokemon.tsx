@@ -1,36 +1,43 @@
 import { Pokemon } from "../App";
 
-export function shufflePokemon(array: Pokemon[], turn: number = 1) {
-  const shuffledArray = [...array]; // Create a copy of the original array
-  for (let i = shuffledArray.length - 1; i > 0; i--) {
+export function shufflePokemon(pokemon: Pokemon[], turn: number = 1) {
+  // Step 1: Shuffle the array
+  const shuffledPokemon = [...pokemon]; // Copy the original array
+  for (let i = shuffledPokemon.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
-    [shuffledArray[i], shuffledArray[j]] = [shuffledArray[j], shuffledArray[i]];
+    [shuffledPokemon[i], shuffledPokemon[j]] = [
+      shuffledPokemon[j],
+      shuffledPokemon[i],
+    ];
   }
-  return shuffledArray;
 
-  switch (turn) {
-    case 1:
-      break;
+  // Step 2: Determine how many already selected Pokémon should be in the first 5 elements of the array
+  const minSelected = 1; // The minimum is 1 selected item
+  const maxSelected = Math.min(turn, 4); // Max selected can be up to turn number but no more than 4.
+  const numSelected = Math.floor(Math.random() * maxSelected) + minSelected;
 
-    default:
-      break;
+  // Step 3: Get the selected and unselected Pokémon
+  const selectedPokemon = shuffledPokemon.filter((pokemon) => pokemon.selected);
+  const unselectedPokemon = shuffledPokemon.filter(
+    (pokemon) => !pokemon.selected
+  );
+
+  // Step 4: Place the random amount of selected Pokémon in the first 5 positions
+  const firstFivePositions: Pokemon[] = [];
+  firstFivePositions.push(...selectedPokemon.splice(0, numSelected));
+
+  // Step 5: Fill rest of the first 5 positions with unselected Pokémon
+  firstFivePositions.push(...unselectedPokemon.splice(0, 5 - numSelected));
+
+  // Step 6: Shuffle the first 5 positions
+  for (let i = firstFivePositions.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [firstFivePositions[i], firstFivePositions[j]] = [
+      firstFivePositions[j],
+      firstFivePositions[i],
+    ];
   }
+
+  // Step 7: Combine the rest of the Pokémon with the shuffled first 5 positions
+  return [...firstFivePositions, ...unselectedPokemon, ...selectedPokemon];
 }
-
-/* Shuffle Algo:
-15 cards
-T1: egal
-T2: 1 selected, 4 no selected
-case turn === 2
-shuffle, filter selected, filter unselected, push new array
-T3: 1-2 selected, 3-4 no selected
-shuffle, filter selected, filter unseelcted, getrandomnumber 1-2, push 1-2, push 5-1-2
-T4: 1-3 selected, 2-4 no selected
-same with number +1
-T5: 1-4 selected, 1-4 no selected
-same with numner +1
-T6: ^^
-
-
-
-*/
