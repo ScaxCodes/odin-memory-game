@@ -20,7 +20,6 @@ export function ToggleMusicButton({
       >
         <img src={isMusicEnabled ? musicOn : musicOff} />
       </button>
-      {/* {isMusicEnabled && <ReactHowler src="./assets/bgmusic.mp3" />} */}
       {isMusicEnabled && (
         <ReactHowler src={bgMusic} playing={true} loop={true} volume={0.2} />
       )}

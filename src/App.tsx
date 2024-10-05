@@ -6,6 +6,7 @@ import { ModalContent } from "./comps/ModalContent";
 import { shufflePokemon } from "./utils/shufflePokemon";
 import { getTotalTurns } from "./utils/getTotalTurns";
 import { getInitialHighscore } from "./utils/getInitialHighscore";
+import clickSound from "./assets/cardflip.mp3";
 
 export type ModalStatus = {
   isOpen: boolean;
@@ -63,10 +64,6 @@ function App() {
     if (pokemon[index].selected === true)
       return setModalStatus({ isOpen: true, id: "lost" });
 
-    // Check winning condition
-    if (gameState.turn === getTotalTurns(gameState.difficulty))
-      setModalStatus({ isOpen: true, id: "won" });
-
     // Mark clicked pokémon as selected
     const pokemonCopy = pokemon.map((p, i) =>
       i === index ? { ...p, selected: true } : p
@@ -85,6 +82,15 @@ function App() {
           ? gameState.highscore + 1
           : gameState.highscore,
     });
+
+    // Check winning condition
+    if (gameState.turn === getTotalTurns(gameState.difficulty))
+      return setModalStatus({ isOpen: true, id: "won" });
+
+    // Play audio only when game continues
+    const clickAudio = new Audio(clickSound);
+    clickAudio.volume = 0.3;
+    clickAudio.play();
   }
 
   return (
@@ -111,6 +117,7 @@ function App() {
               handleSelectDifficulty(difficulty)
             }
             setPokemon={setPokemon}
+            setIsMusicEnabled={setIsMusicEnabled}
           />
         </Modal>
       )}

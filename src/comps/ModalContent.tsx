@@ -3,6 +3,9 @@ import { DifficultyType, ModalStatus, Pokemon } from "../App";
 import { getTotalTurns } from "../utils/getTotalTurns";
 import pikachuWon from "../assets/win.webp";
 import pikachuLost from "../assets/loose.webp";
+import musicWon from "../assets/gamewon.mp3";
+import musicLost from "../assets/gamelost.mp3";
+import ReactHowler from "react-howler";
 
 type ModalContentProps = {
   modalStatus: ModalStatus;
@@ -10,6 +13,7 @@ type ModalContentProps = {
   difficulty: DifficultyType;
   onSelectDifficulty: (difficulty: DifficultyType) => void;
   setPokemon: React.Dispatch<React.SetStateAction<Pokemon[]>>;
+  setIsMusicEnabled: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 export function ModalContent({
@@ -18,6 +22,7 @@ export function ModalContent({
   difficulty,
   onSelectDifficulty,
   setPokemon,
+  setIsMusicEnabled,
 }: ModalContentProps) {
   const [isLoading, setIsLoading] = useState(false);
 
@@ -57,6 +62,9 @@ export function ModalContent({
   }
 
   useEffect(() => {
+    if (modalStatus.id === "won" || modalStatus.id === "lost")
+      setIsMusicEnabled(false);
+
     if (modalStatus.id === "loading") {
       setIsLoading(true);
       fetchPokemon();
@@ -113,6 +121,11 @@ export function ModalContent({
         </p>
         <p className="mt-4">Try again?</p>
         <GameOverButtons />
+        <ReactHowler
+          src={status === "lost" ? musicLost : musicWon}
+          playing={true}
+          volume={0.2}
+        />
       </>
     );
   }
