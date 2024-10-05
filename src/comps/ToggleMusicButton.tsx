@@ -18,7 +18,10 @@ export function ToggleMusicButton({
         className="fixed top-0 left-0 m-4"
         onClick={() => setIsMusicEnabled(!isMusicEnabled)}
       >
-        <img src={isMusicEnabled ? musicOn : musicOff} />
+        <img
+          src={isMusicEnabled ? musicOn : musicOff}
+          className="w-3/4 md:w-full"
+        />
       </button>
       {isMusicEnabled && (
         <ReactHowler src={bgMusic} playing={true} loop={true} volume={0.2} />

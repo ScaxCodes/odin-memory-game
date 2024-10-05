@@ -2,9 +2,9 @@ import { GameState } from "../App";
 
 export function Header({ gameState }: { gameState: GameState }) {
   return (
-    <div className="flex flex-col text-center mt-4 mb-16">
+    <div className="flex flex-col text-center mt-4 mb-8 md:mb-16">
       <Title />
-      <div className="flex justify-center gap-12 mt-4">
+      <div className="flex justify-center gap-8 mt-4 text-sm md:text-base">
         <CurrentScoreDisplay currentScore={gameState.currentScore} />
         <HighscoreDisplay highscore={gameState.highscore} />
       </div>
@@ -14,7 +14,7 @@ export function Header({ gameState }: { gameState: GameState }) {
 
 function Title() {
   return (
-    <div className="text-3xl">
+    <div className="md:text-3xl text-2xl">
       <span className="text-red-600">Poké</span>
       <span>Memo</span>
       <span className="text-red-600">N</span>
@@ -23,9 +23,9 @@ function Title() {
 }
 
 function CurrentScoreDisplay({ currentScore }: { currentScore: number }) {
-  return <div>Score: {currentScore}</div>;
+  return <div>Score:{currentScore}</div>;
 }
 
 function HighscoreDisplay({ highscore }: { highscore: number }) {
-  return <div>Highscore: {highscore}</div>;
+  return <div>Highscore:{highscore}</div>;
 }
