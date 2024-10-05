@@ -3,7 +3,7 @@ import { DifficultyType, ModalStatus, Pokemon } from "../App";
 import { getTotalTurns } from "../utils/getTotalTurns";
 import pikachuWon from "../assets/win.webp";
 import pikachuLost from "../assets/loose.webp";
-import musicWon from "../assets/gamewon.mp3";
+import musicWon from "../assets/gamewon-cut.mp3";
 import musicLost from "../assets/gamelost.mp3";
 import ReactHowler from "react-howler";
 
