@@ -1,10 +1,11 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ToggleMusicButton } from "./comps/ToggleMusicButton";
 import { Header } from "./comps/Header";
 import { Gameboard } from "./comps/Gameboard";
 import { ModalContent } from "./comps/ModalContent";
 import { shufflePokemon } from "./utils/shufflePokemon";
 import { getTotalTurns } from "./utils/getTotalTurns";
+import { getInitialHighscore } from "./utils/getInitialHighscore";
 
 export type ModalStatus = {
   isOpen: boolean;
@@ -32,21 +33,21 @@ export type DifficultyType = "easy" | "medium" | "hard";
 function App() {
   const [gameState, setGameState] = useState<GameState>({
     currentScore: 0,
-    highscore: 0,
+    highscore: getInitialHighscore(),
     turn: 1,
     difficulty: "easy",
   });
-
   const [modalStatus, setModalStatus] = useState<ModalStatus>({
     isOpen: true,
     id: "welcome",
   });
-
   const [isMusicEnabled, setIsMusicEnabled] = useState(false);
-
   const [pokemon, setPokemon] = useState<Pokemon[]>([]);
 
-  console.log(pokemon);
+  // Save highscore to localStorage whenever it changes
+  useEffect(() => {
+    localStorage.setItem("highscore", gameState.highscore.toString());
+  }, [gameState.highscore]);
 
   function handleSelectDifficulty(difficulty: DifficultyType) {
     // Reset score and turn state, if its not the first game
@@ -75,12 +76,15 @@ function App() {
     setPokemon(shufflePokemon(pokemonCopy, gameState.turn));
 
     // Proceed to next turn
-    setGameState((currentGameState) => ({
-      ...currentGameState,
-      currentScore: currentGameState.currentScore + 1,
-      turn: currentGameState.turn + 1,
-      highscore: currentGameState.highscore + 1,
-    }));
+    setGameState({
+      ...gameState,
+      currentScore: gameState.currentScore + 1,
+      turn: gameState.turn + 1,
+      highscore:
+        gameState.currentScore === gameState.highscore
+          ? gameState.highscore + 1
+          : gameState.highscore,
+    });
   }
 
   return (
