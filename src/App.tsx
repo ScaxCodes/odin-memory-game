@@ -49,8 +49,11 @@ function App() {
   console.log(pokemon);
 
   function handleSelectDifficulty(difficulty: DifficultyType) {
+    // Reset score and turn state, if its not the first game
+    if (modalStatus.id !== "welcome")
+      setGameState({ ...gameState, currentScore: 0, turn: 1 });
     setModalStatus({ ...modalStatus, id: "loading" });
-    setGameState({ ...gameState, difficulty });
+    setGameState((currentGameState) => ({ ...currentGameState, difficulty }));
     setIsMusicEnabled(true);
   }
 
