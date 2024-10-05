@@ -3,15 +3,17 @@ import { getTotalTurns } from "../utils/getTotalTurns";
 
 export function Header({ gameState }: { gameState: GameState }) {
   return (
-    <>
+    <div className="flex flex-col text-center m-2">
       <Title />
-      <CurrentScoreDisplay currentScore={gameState.currentScore} />
-      <HighscoreDisplay highscore={gameState.highscore} />
+      <div className="flex justify-center gap-2">
+        <CurrentScoreDisplay currentScore={gameState.currentScore} />
+        <HighscoreDisplay highscore={gameState.highscore} />
+      </div>
       <TurnDisplay
         turn={gameState.turn}
         turns={getTotalTurns(gameState.difficulty)}
       />
-    </>
+    </div>
   );
 }
 

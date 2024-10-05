@@ -14,7 +14,7 @@ export function Gameboard({
   onClick,
 }: GameboardType) {
   return (
-    <>
+    <div className="flex justify-center flex-wrap">
       {pokemon &&
         pokemon.slice(0, 6).map((pokemon, index) => {
           return (
@@ -26,7 +26,7 @@ export function Gameboard({
             />
           );
         })}
-    </>
+    </div>
   );
 }
 
