@@ -127,8 +127,11 @@ function App() {
 
 function Modal({ children }: { children: React.ReactNode }) {
   return (
-    <div className="fixed inset-0 bg-gray-800 flex items-center justify-center opacity-50">
-      <div className="p-4 bg-white border border-black z-1">{children}</div>
+    <div className="fixed inset-0 flex items-center justify-center">
+      <div className="absolute inset-0 bg-gray-800 opacity-50"></div>
+      <div className="relative p-4 bg-white border border-black z-10">
+        {children}
+      </div>
     </div>
   );
 }
