@@ -90,7 +90,6 @@ function App() {
       {!modalStatus.isOpen && (
         <Gameboard
           gameState={gameState}
-          setGameState={setGameState}
           pokemon={pokemon}
           onClick={handleCardClick}
         />

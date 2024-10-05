@@ -12,7 +12,7 @@ export function ToggleMusicButton({
 }: ToggleMusicButtonType) {
   return (
     <button
-      className="fixed top-0 left-0 m-2"
+      className="fixed top-0 left-0 m-4"
       onClick={() => setIsMusicEnabled(!isMusicEnabled)}
     >
       <img src={isMusicEnabled ? musicOn : musicOff} />
