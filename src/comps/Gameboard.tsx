@@ -1,5 +1,6 @@
 import { GameState, Pokemon } from "../App";
 import { getTotalTurns } from "../utils/getTotalTurns";
+import Tilt from "react-parallax-tilt";
 
 type GameboardType = {
   gameState: GameState;
@@ -10,23 +11,32 @@ type GameboardType = {
 export function Gameboard({ gameState, pokemon, onClick }: GameboardType) {
   return (
     <>
-      <div className="text-center text-xl">
-        {" "}
+      <div className="text-center text-xl mb-4">
         <TurnDisplay
           turn={gameState.turn}
           turns={getTotalTurns(gameState.difficulty)}
         />
       </div>
-      <div className="flex justify-center flex-wrap">
+      <div className="flex justify-center flex-wrap gap-4">
         {pokemon &&
           pokemon.slice(0, 6).map((pokemon, index) => {
             return (
-              <PokemonCard
+              <Tilt
                 key={pokemon.id}
-                name={pokemon.name}
-                image={pokemon.image}
-                onClick={() => onClick(index)}
-              />
+                tiltReverse={true}
+                tiltMaxAngleX={25}
+                tiltMaxAngleY={25}
+                glareEnable={true}
+                glareMaxOpacity={0.8}
+                glarePosition="all"
+                scale={1.1}
+              >
+                <PokemonCard
+                  name={pokemon.name}
+                  image={pokemon.image}
+                  onClick={() => onClick(index)}
+                />
+              </Tilt>
             );
           })}
       </div>
@@ -35,7 +45,6 @@ export function Gameboard({ gameState, pokemon, onClick }: GameboardType) {
 }
 
 type PokemonCardType = {
-  key: number;
   name: string;
   image: string;
   onClick: () => void;
@@ -44,7 +53,7 @@ type PokemonCardType = {
 function PokemonCard({ name, image, onClick }: PokemonCardType) {
   return (
     <button
-      className="h-52 w-40 bg-red-300 m-1 inline-block rounded-lg opacity-90"
+      className="h-52 w-40 bg-red-300 inline-block rounded-lg opacity-90"
       onClick={onClick}
     >
       <div className="flex flex-col items-center justify-center h-full text-sm">
