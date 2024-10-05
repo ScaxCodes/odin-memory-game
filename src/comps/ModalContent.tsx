@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { DifficultyType, ModalStatus, Pokemon } from "../App";
 import { getTotalTurns } from "../utils/getTotalTurns";
+import pikachuWon from "../assets/win.webp";
+import pikachuLost from "../assets/loose.webp";
 
 type ModalContentProps = {
   modalStatus: ModalStatus;
@@ -65,13 +67,8 @@ export function ModalContent({
     case "welcome":
       return (
         <>
-          <p>Welcome to my game!</p>
-          <p>Please select a difficulty...</p>
-          <div className="flex gap-2">
-            <DifficultyButton difficulty="easy" />
-            <DifficultyButton difficulty="medium" />
-            <DifficultyButton difficulty="hard" />
-          </div>
+          <p>Select a difficulty...</p>
+          <GameOverButtons />
         </>
       );
     case "loading":
@@ -88,10 +85,10 @@ export function ModalContent({
       );
     case "lost":
       // Return lost modal
-      return <p>You have lost the game!</p>;
+      return <GameOverMessage status={"lost"} />;
     case "won":
       // Return won modal
-      return <p>You have won the game!</p>;
+      return <GameOverMessage status={"won"} />;
     default:
       throw new Error("Invalid modal id");
   }
@@ -99,11 +96,34 @@ export function ModalContent({
   function DifficultyButton({ difficulty }: { difficulty: DifficultyType }) {
     return (
       <button
-        className="mt-2 bg-yellow-400 text-black font-bold px-3 py-1 rounded-md border-2 border-black shadow-retro hover:bg-yellow-300 transition-all"
+        className="mt-4 bg-yellow-400 text-black font-bold px-3 py-1 rounded-md border-2 border-black shadow-retro hover:bg-yellow-300 transition-all"
         onClick={() => onSelectDifficulty(difficulty)}
       >
         {difficulty.toUpperCase()}
       </button>
+    );
+  }
+
+  function GameOverMessage({ status }: { status: "lost" | "won" }) {
+    return (
+      <>
+        <img src={status === "lost" ? pikachuLost : pikachuWon} />
+        <p className="mt-4">
+          You {status === "lost" ? "lost" : "won"} the game!
+        </p>
+        <p className="mt-4">Try again?</p>
+        <GameOverButtons />
+      </>
+    );
+  }
+
+  function GameOverButtons() {
+    return (
+      <div className="flex gap-4 justify-center">
+        <DifficultyButton difficulty="easy" />
+        <DifficultyButton difficulty="medium" />
+        <DifficultyButton difficulty="hard" />
+      </div>
     );
   }
 }
