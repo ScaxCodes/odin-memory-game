@@ -1,9 +1,9 @@
 export function getTotalTurns(
   difficulty: "easy" | "medium" | "hard"
-): 5 | 15 | 25 {
+): 6 | 15 | 25 {
   switch (difficulty) {
     case "easy":
-      return 5;
+      return 6;
     case "medium":
       return 15;
     case "hard":

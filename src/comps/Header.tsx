@@ -33,7 +33,7 @@ function HighscoreDisplay({ highscore }: { highscore: number }) {
   return <div>Highscore: {highscore}</div>;
 }
 
-function TurnDisplay({ turn, turns }: { turn: number; turns: 5 | 15 | 25 }) {
+function TurnDisplay({ turn, turns }: { turn: number; turns: 6 | 15 | 25 }) {
   return (
     <div>
       Turn: {turn > turns ? turns : turn}/{turns}

@@ -16,7 +16,7 @@ export function Gameboard({
   return (
     <>
       {pokemon &&
-        pokemon.slice(0, 5).map((pokemon, index) => {
+        pokemon.slice(0, 6).map((pokemon, index) => {
           return (
             <PokemonCard
               key={pokemon.id}
