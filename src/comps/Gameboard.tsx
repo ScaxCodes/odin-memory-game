@@ -22,7 +22,7 @@ export function Gameboard({ gameState, pokemon, onClick }: GameboardType) {
           pokemon.slice(0, 6).map((pokemon, index) => {
             return (
               <Tilt
-                key={pokemon.id}
+                key={gameState.turn + "." + pokemon.id}
                 tiltReverse={true}
                 tiltMaxAngleX={25}
                 tiltMaxAngleY={25}
