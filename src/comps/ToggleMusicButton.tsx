@@ -1,7 +1,21 @@
-import { useState } from "react";
+import musicOn from "../assets/music.png";
+import musicOff from "../assets/music-off.png";
 
-export function ToggleMusicButton() {
-  const [isMusicEnabled, setIsMusicEnabled] = useState(false);
+type ToggleMusicButtonType = {
+  isMusicEnabled: boolean;
+  setIsMusicEnabled: React.Dispatch<React.SetStateAction<boolean>>;
+};
 
-  return <button className="fixed top-0 left-0 m-2">Toggle Music</button>;
+export function ToggleMusicButton({
+  isMusicEnabled,
+  setIsMusicEnabled,
+}: ToggleMusicButtonType) {
+  return (
+    <button
+      className="fixed top-0 left-0 m-2"
+      onClick={() => setIsMusicEnabled(!isMusicEnabled)}
+    >
+      <img src={isMusicEnabled ? musicOn : musicOff} />
+    </button>
+  );
 }

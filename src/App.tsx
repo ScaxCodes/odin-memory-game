@@ -42,6 +42,8 @@ function App() {
     id: "welcome",
   });
 
+  const [isMusicEnabled, setIsMusicEnabled] = useState(false);
+
   const [pokemon, setPokemon] = useState<Pokemon[]>([]);
 
   console.log(pokemon);
@@ -49,6 +51,7 @@ function App() {
   function handleSelectDifficulty(difficulty: DifficultyType) {
     setModalStatus({ ...modalStatus, id: "loading" });
     setGameState({ ...gameState, difficulty });
+    setIsMusicEnabled(true);
   }
 
   function handleCardClick(index: number) {
@@ -78,32 +81,33 @@ function App() {
   }
 
   return (
-    <div className="bg-[url('./assets/background.jpg')] h-screen bg-cover bg-center bg-fixed overflow-y-auto">
-      <div>
-        <ToggleMusicButton />
-        <Header gameState={gameState} />
-        {!modalStatus.isOpen && (
-          <Gameboard
-            gameState={gameState}
-            setGameState={setGameState}
-            pokemon={pokemon}
-            onClick={handleCardClick}
+    <div className="bg-[url('./assets/background.jpg')] h-screen bg-cover bg-center bg-fixed overflow-y-auto font-retro">
+      <ToggleMusicButton
+        isMusicEnabled={isMusicEnabled}
+        setIsMusicEnabled={setIsMusicEnabled}
+      />
+      <Header gameState={gameState} />
+      {!modalStatus.isOpen && (
+        <Gameboard
+          gameState={gameState}
+          setGameState={setGameState}
+          pokemon={pokemon}
+          onClick={handleCardClick}
+        />
+      )}
+      {modalStatus.isOpen && (
+        <Modal>
+          <ModalContent
+            modalStatus={modalStatus}
+            setModalStatus={setModalStatus}
+            difficulty={gameState.difficulty}
+            onSelectDifficulty={(difficulty) =>
+              handleSelectDifficulty(difficulty)
+            }
+            setPokemon={setPokemon}
           />
-        )}
-        {modalStatus.isOpen && (
-          <Modal>
-            <ModalContent
-              modalStatus={modalStatus}
-              setModalStatus={setModalStatus}
-              difficulty={gameState.difficulty}
-              onSelectDifficulty={(difficulty) =>
-                handleSelectDifficulty(difficulty)
-              }
-              setPokemon={setPokemon}
-            />
-          </Modal>
-        )}
-      </div>
+        </Modal>
+      )}
     </div>
   );
 }

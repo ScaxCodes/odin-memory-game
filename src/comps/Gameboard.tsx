@@ -40,11 +40,11 @@ type PokemonCardType = {
 function PokemonCard({ name, image, onClick }: PokemonCardType) {
   return (
     <button
-      className="h-64 w-40 bg-red-300 m-1 inline-block rounded-lg"
+      className="h-52 w-40 bg-red-300 m-1 inline-block rounded-lg opacity-90"
       onClick={onClick}
     >
       <div className="flex flex-col items-center justify-center h-full">
-        <img src={image} />
+        <img src={image} width="200%" />
         <p>{name.toUpperCase()}</p>
       </div>
     </button>
