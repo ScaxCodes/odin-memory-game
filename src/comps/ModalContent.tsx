@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { DifficultyType, ModalStatus, Pokemon } from "../App";
 import { getTotalTurns } from "../utils/getTotalTurns";
+import pokeball from "../assets/pokeball.png";
+import checkmark from "../assets/checkmark.png";
 import pikachuWon from "../assets/win.webp";
 import pikachuLost from "../assets/loose.webp";
 import musicWon from "../assets/gamewon-cut.mp3";
@@ -34,8 +36,8 @@ export function ModalContent({
       // Generation I (Kanto): 151 Pokémon (Pokémon #001-#151)
       // Introduced in Pokémon Red/Blue/Green/Yellow (1996)
       const randomId = Math.floor(Math.random() * 151) + 1;
-
       const duplicationFound = pokemon.some((p) => p.id === randomId);
+
       if (duplicationFound) {
         console.log(`Duplication Found - Skipping Pokémon! ID: ${randomId}`);
         continue; // Skip to the next iteration if duplication is found
@@ -54,21 +56,34 @@ export function ModalContent({
       });
     }
 
-    setPokemon(pokemon);
-    setIsLoading(false);
-    setTimeout(() => {
-      setModalStatus({ ...modalStatus, isOpen: false });
-    }, 1000);
+    return pokemon;
   }
 
   useEffect(() => {
     if (modalStatus.id === "won" || modalStatus.id === "lost")
       setIsMusicEnabled(false);
 
-    if (modalStatus.id === "loading") {
-      setIsLoading(true);
-      fetchPokemon();
+    async function loadPokemon() {
+      if (modalStatus.id === "loading") {
+        setIsLoading(true);
+
+        // Ensure the loading modal is visible for at least 1sec
+        const delayPromise = new Promise((resolve) =>
+          setTimeout(resolve, 1000)
+        );
+
+        const [pokemon] = await Promise.all([fetchPokemon(), delayPromise]);
+        setPokemon(pokemon);
+
+        // After another delay of 1sec, close the modal
+        setIsLoading(false);
+        setTimeout(() => {
+          setModalStatus({ ...modalStatus, isOpen: false });
+        }, 1000);
+      }
     }
+
+    loadPokemon();
   }, [modalStatus.id]);
 
   switch (modalStatus.id) {
@@ -80,16 +95,18 @@ export function ModalContent({
         </>
       );
     case "loading":
+      const loadingText = isLoading ? "Loading Pokémon" : "Loading done";
+      const loadingIcon = isLoading ? (
+        <img src={pokeball} alt="Loading" className="animate-spin" />
+      ) : (
+        <img src={checkmark} alt="Loaded" />
+      );
+
       return (
-        <>
-          {isLoading && (
-            <>
-              <p>Please wait...</p>
-              <p>Pokémon are loading...</p>
-            </>
-          )}
-          {!isLoading && <>Pokémon loaded!</>}
-        </>
+        <div className="flex justify-between items-center w-72 h-8">
+          <p>{loadingText}</p>
+          {loadingIcon}
+        </div>
       );
     case "lost":
       // Return lost modal
