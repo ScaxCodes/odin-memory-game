@@ -57,7 +57,7 @@ function PokemonCard({ name, image, onClick }: PokemonCardType) {
       onClick={onClick}
     >
       <div className="flex flex-col items-center justify-center h-full text-sm">
-        <img src={image} width="200%" />
+        <img src={image} alt={name} width="200%" draggable="false" />
         <p>{name.toUpperCase()}</p>
       </div>
     </button>

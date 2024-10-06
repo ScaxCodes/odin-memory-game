@@ -43,6 +43,7 @@ function App() {
     id: "welcome",
   });
   const [isMusicEnabled, setIsMusicEnabled] = useState(false);
+  const [forceMusicOff, setForceMusicOff] = useState(false);
   const [pokemon, setPokemon] = useState<Pokemon[]>([]);
 
   // Save highscore to localStorage whenever it changes
@@ -56,10 +57,14 @@ function App() {
       setGameState({ ...gameState, currentScore: 0, turn: 1 });
     setModalStatus({ ...modalStatus, id: "loading" });
     setGameState((currentGameState) => ({ ...currentGameState, difficulty }));
-    setIsMusicEnabled(true);
+    if (!forceMusicOff) setIsMusicEnabled(true);
   }
 
   function handleCardClick(index: number) {
+    // Save users music settings
+    if (!isMusicEnabled) setForceMusicOff(true);
+    else if (forceMusicOff) setForceMusicOff(false);
+
     // Check loosing condition
     if (pokemon[index].selected === true)
       return setModalStatus({ isOpen: true, id: "lost" });
