@@ -1,6 +1,7 @@
 <div style="display: flex; align-items: center; justify-content: center;" align="center">
   <img src="./public/screenshot.png" alt="Screenshot of the game">
 </div>
+
 # Pokémon Memory Game
 
 This is a fun, interactive Pokémon memory game built with React. The objective is to choose from a set of 6 Pokémon cards from Generation I each turn, without selecting the same card twice in a single game. The game dynamically fetches data from the PokéAPI to populate the gameboard with random Pokémon.
