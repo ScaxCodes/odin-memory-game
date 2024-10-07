@@ -132,7 +132,11 @@ export function ModalContent({
   function GameOverMessage({ status }: { status: "lost" | "won" }) {
     return (
       <>
-        <img src={status === "lost" ? pikachuLost : pikachuWon} />
+        <img
+          src={status === "lost" ? pikachuLost : pikachuWon}
+          width={500}
+          height={status === "lost" ? 320 : 340}
+        />
         <p className="mt-4">
           You {status === "lost" ? "lost" : "won"} the game!
         </p>
