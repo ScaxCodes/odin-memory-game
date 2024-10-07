@@ -125,7 +125,7 @@ export function ModalContent({
   function DifficultyButton({ difficulty }: { difficulty: DifficultyType }) {
     return (
       <button
-        className="mt-4 bg-yellow-400 text-black font-bold px-3 py-1 rounded-md border-2 border-black shadow-retro hover:bg-yellow-300 transition-all"
+        className="mt-4 bg-yellow-400 text-black font-bold px-3 py-1 rounded-md border-2 border-black shadow-retro hover:bg-yellow-300 transition-all focus:ring-4 focus:ring-blue-500"
         onClick={() => onSelectDifficulty(difficulty)}
       >
         {difficulty.toUpperCase()}

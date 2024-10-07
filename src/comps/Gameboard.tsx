@@ -71,7 +71,7 @@ function PokemonCard({ name, image, onClick }: PokemonCardType) {
   return (
     <button
       ref={buttonRef}
-      className={`h-52 w-40 bg-red-300 inline-block rounded-lg opacity-90 animate-fadeIn`}
+      className={`h-52 w-40 bg-red-300 inline-block rounded-lg opacity-90 animate-fadeIn focus:ring-8 focus:ring-blue-500`}
       onClick={!isAnimating ? onClick : undefined} // Only allow click if not animating
     >
       <div className="flex flex-col items-center justify-center h-full text-sm">
