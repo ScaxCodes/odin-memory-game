@@ -18,7 +18,7 @@ export function Gameboard({ gameState, pokemon, onClick }: GameboardType) {
           turns={getTotalTurns(gameState.difficulty)}
         />
       </div>
-      <div className="flex justify-center flex-wrap gap-4">
+      <div className="flex justify-center flex-wrap gap-4 w-fit min-[540px]:w-[540px] min-[1070px]:w-full m-auto">
         {pokemon &&
           pokemon.slice(0, 6).map((pokemon, index) => {
             return (

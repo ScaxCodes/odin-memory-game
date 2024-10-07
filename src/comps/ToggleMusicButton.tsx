@@ -20,7 +20,7 @@ export function ToggleMusicButton({
       >
         <img
           src={isMusicEnabled ? musicOn : musicOff}
-          className="w-3/4 md:w-full"
+          className="w-3/4 min-[512px]:w-full"
         />
       </button>
       {isMusicEnabled && (
