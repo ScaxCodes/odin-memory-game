@@ -24,7 +24,13 @@ export function ToggleMusicButton({
         />
       </button>
       {isMusicEnabled && (
-        <ReactHowler src={bgMusic} playing={true} loop={true} volume={0.2} />
+        <ReactHowler
+          src={bgMusic}
+          playing={true}
+          loop={true}
+          volume={0.2}
+          html5={true}
+        />
       )}
     </>
   );
