@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { GameState, Pokemon } from "../App";
 import { getTotalTurns } from "../utils/getTotalTurns";
 import Tilt from "react-parallax-tilt";
@@ -53,15 +53,24 @@ type PokemonCardType = {
 
 function PokemonCard({ name, image, onClick }: PokemonCardType) {
   const [isAnimating, setIsAnimating] = useState(true);
+  const buttonRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
-    setTimeout(() => {
-      setIsAnimating(false);
-    }, 750); // Match the duration of the fadeIn animation
+    const button = buttonRef.current;
+    if (button) {
+      button.addEventListener("animationend", () => setIsAnimating(false));
+    }
+
+    return () => {
+      if (button) {
+        button.removeEventListener("animationend", () => setIsAnimating(false));
+      }
+    };
   }, []);
 
   return (
     <button
+      ref={buttonRef}
       className={`h-52 w-40 bg-red-300 inline-block rounded-lg opacity-90 animate-fadeIn`}
       onClick={!isAnimating ? onClick : undefined} // Only allow click if not animating
     >
