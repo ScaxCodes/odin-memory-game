@@ -90,7 +90,11 @@ export function ModalContent({
     case "welcome":
       return (
         <>
-          <p>Select a difficulty...</p>
+          <p className="text-sm mb-4">
+            Can you catch them all? Select each Pokémon, without choosing any of
+            them more than once!
+          </p>
+          <p className="text-sm">Select a difficulty...</p>
           <GameOverButtons />
         </>
       );
