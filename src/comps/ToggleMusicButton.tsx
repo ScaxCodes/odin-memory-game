@@ -15,7 +15,7 @@ export function ToggleMusicButton({
   return (
     <>
       <button
-        className="fixed top-0 left-0 m-4"
+        className="absolute top-0 left-0 m-4"
         onClick={() => setIsMusicEnabled(!isMusicEnabled)}
       >
         <img

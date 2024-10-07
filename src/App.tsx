@@ -99,7 +99,7 @@ function App() {
   }
 
   return (
-    <div className="bg-[url('./assets/background.jpg')] h-screen bg-cover bg-center bg-fixed overflow-y-auto font-retro">
+    <div className="bg-[url('./assets/background.jpg')] min-h-screen bg-cover bg-center bg-fixed overflow-y-auto font-retro">
       <ToggleMusicButton
         isMusicEnabled={isMusicEnabled}
         setIsMusicEnabled={setIsMusicEnabled}
